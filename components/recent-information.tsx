@@ -52,12 +52,103 @@ const recentInfoData: RecentInfoItem[] = [
     title: "ভোটার সচেতনতা কর্মসূচি শুরু",
     link: "/programs/voter-awareness",
   },
+  {
+    id: 9,
+    title: "নির্বাচন পর্যবেক্ষক নিয়োগ বিজ্ঞপ্তি",
+    link: "/recruitment/election-observer",
+  },
+  {
+    id: 10,
+    title: "জাতীয় পরিচয়পত্র সংশোধন সেবা চালু",
+    link: "/services/nid-correction",
+  },
+  {
+    id: 11,
+    title: "উপজেলা নির্বাচন ২০২৫ এর প্রস্তুতি সভা",
+    link: "/meetings/upazila-election-2025",
+  },
+  {
+    id: 12,
+    title: "নতুন ভোটার নিবন্ধনের সময়সীমা বৃদ্ধি",
+    link: "/announcements/voter-registration-extension",
+  },
+  {
+    id: 13,
+    title: "নির্বাচনী আচরণবিধি লঙ্ঘনের শাস্তি নির্দেশিকা",
+    link: "/guidelines/code-of-conduct-penalties",
+  },
+  {
+    id: 14,
+    title: "প্রতিবন্ধী ভোটারদের জন্য বিশেষ ব্যবস্থা ঘোষণা",
+    link: "/announcements/special-arrangement-disabled-voters",
+  },
+  {
+    id: 15,
+    title: "নির্বাচনী প্রচারণা ব্যয় সীমা নির্ধারণ",
+    link: "/regulations/campaign-expenditure-limit",
+  },
+  {
+    id: 16,
+    title: "ভোটকেন্দ্র তালিকা চূড়ান্তকরণ",
+    link: "/announcements/polling-center-finalization",
+  },
+  {
+    id: 17,
+    title: "নির্বাচনী কর্মকর্তাদের প্রশিক্ষণ কর্মসূচি",
+    link: "/training/election-officials",
+  },
+  {
+    id: 18,
+    title: "অনলাইন ভোটার তথ্য যাচাই সেবা চালু",
+    link: "/services/online-voter-verification",
+  },
+  {
+    id: 19,
+    title: "নির্বাচন সংক্রান্ত জনসচেতনতা প্রচারণা",
+    link: "/campaigns/public-awareness",
+  },
+  {
+    id: 20,
+    title: "প্রার্থী মনোনয়ন ফরম বিতরণ শুরু",
+    link: "/announcements/candidate-nomination-form",
+  },
+  {
+    id: 21,
+    title: "নির্বাচন পরিচালনা কমিটি গঠন",
+    link: "/committees/election-management",
+  },
+  {
+    id: 22,
+    title: "ভোটার তালিকা প্রদর্শন কর্মসূচি",
+    link: "/programs/voter-list-display",
+  },
+  {
+    id: 23,
+    title: "নির্বাচনী সহায়তা হেল্পলাইন চালু",
+    link: "/services/election-helpline",
+  },
+  {
+    id: 24,
+    title: "জাতীয় নির্বাচন ক্যালেন্ডার ২০২৫-২০৩০ প্রকাশ",
+    link: "/publications/election-calendar-2025-2030",
+  },
+  {
+    id: 25,
+    title: "নির্বাচন কমিশনার নিয়োগ বিজ্ঞপ্তি",
+    link: "/recruitment/election-commissioner",
+  },
 ];
 
 export function RecentInformation() {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(recentInfoData.length / itemsPerPage);
   const showPagination = totalPages > 1;
+
+  // Convert number to Bangla
+  const toBanglaNumber = (num: number): string => {
+    const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return num.toString().split('').map(digit => banglaDigits[parseInt(digit)]).join('');
+  };
 
   return (
     <section className="space-y-6">
@@ -81,7 +172,7 @@ export function RecentInformation() {
           <table className="w-full">
             <thead className="bg-primary/5 border-b">
               <tr>
-                <th className="text-left py-4 px-6 font-semibold text-sm w-24">
+                <th className="text-left py-4 px-4 font-semibold text-sm w-16">
                   ক্রমিক
                 </th>
                 <th className="text-left py-4 px-6 font-semibold text-sm">
@@ -98,8 +189,8 @@ export function RecentInformation() {
                     className="hover:bg-accent/50 transition-colors cursor-pointer"
                   >
                     {/* Serial Number */}
-                    <td className="py-4 px-6 text-sm text-muted-foreground font-medium">
-                      {String(index + 1).padStart(2, "0")}
+                    <td className="py-4 px-4 text-sm text-muted-foreground font-medium">
+                      {toBanglaNumber(index + 1)}
                     </td>
 
                     {/* Title */}
