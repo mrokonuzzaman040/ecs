@@ -5,3 +5,5 @@ export { Footer } from "./footer";
 export { HeroSlider } from "./hero-slider";
 export { LanguageToggle } from "./language-toggle";
 export { MainLayout } from "./main-layout";
+export { RecentInformation } from "./recent-information";
+
