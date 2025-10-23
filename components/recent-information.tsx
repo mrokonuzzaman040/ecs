@@ -1,6 +1,7 @@
 "use client";
 
 import { ExternalLink } from "lucide-react";
+import { useState } from "react";
 
 interface RecentInfoItem {
   id: number;
@@ -140,14 +141,37 @@ const recentInfoData: RecentInfoItem[] = [
 ];
 
 export function RecentInformation() {
-  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
   const totalPages = Math.ceil(recentInfoData.length / itemsPerPage);
   const showPagination = totalPages > 1;
+
+  // Calculate current items to display
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = recentInfoData.slice(indexOfFirstItem, indexOfLastItem);
 
   // Convert number to Bangla
   const toBanglaNumber = (num: number): string => {
     const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
     return num.toString().split('').map(digit => banglaDigits[parseInt(digit)]).join('');
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
   };
 
   return (
@@ -181,7 +205,8 @@ export function RecentInformation() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {recentInfoData.map((item, index) => {
+              {currentItems.map((item, index) => {
+                const actualIndex = indexOfFirstItem + index;
                 return (
                   <tr
                     key={item.id}
@@ -190,7 +215,7 @@ export function RecentInformation() {
                   >
                     {/* Serial Number */}
                     <td className="py-4 px-4 text-sm text-muted-foreground font-medium">
-                      {toBanglaNumber(index + 1)}
+                      {toBanglaNumber(actualIndex + 1)}
                     </td>
 
                     {/* Title */}
@@ -217,25 +242,34 @@ export function RecentInformation() {
         {showPagination && (
           <div className="flex items-center justify-between px-6 py-4 bg-accent/30 border-t">
             <p className="text-sm text-muted-foreground">
-              মোট {recentInfoData.length} টি তথ্য প্রদর্শিত হচ্ছে
+              পৃষ্ঠা {toBanglaNumber(currentPage)} / {toBanglaNumber(totalPages)} (মোট {toBanglaNumber(recentInfoData.length)} টি তথ্য)
             </p>
             <div className="flex gap-2">
-              <button className="px-4 py-2 text-sm border rounded hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              <button 
+                onClick={handlePrevious}
+                disabled={currentPage === 1}
+                className="px-4 py-2 text-sm border rounded hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 পূর্ববর্তী
               </button>
               {Array.from({ length: totalPages }, (_, i) => (
                 <button
                   key={i + 1}
+                  onClick={() => handlePageChange(i + 1)}
                   className={`px-4 py-2 text-sm rounded font-medium transition-colors ${
-                    i === 0
+                    currentPage === i + 1
                       ? "bg-primary text-primary-foreground"
                       : "border hover:bg-accent"
                   }`}
                 >
-                  {i + 1}
+                  {toBanglaNumber(i + 1)}
                 </button>
               ))}
-              <button className="px-4 py-2 text-sm border rounded hover:bg-accent transition-colors">
+              <button 
+                onClick={handleNext}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 text-sm border rounded hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 পরবর্তী
               </button>
             </div>
