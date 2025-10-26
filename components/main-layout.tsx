@@ -84,12 +84,14 @@ interface MainLayoutProps {
   children: ReactNode;
   showRightSidebar?: boolean;
   rightSidebarContent?: ReactNode;
+  showHero?: boolean; // optionally hide hero slider (e.g., 404 page)
 }
 
 export function MainLayout({ 
   children, 
   showRightSidebar = true, 
-  rightSidebarContent 
+  rightSidebarContent,
+  showHero = true,
 }: MainLayoutProps) {
   const { t } = useLanguage();
 
@@ -97,7 +99,7 @@ export function MainLayout({
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
-        <HeroSlider />
+        {showHero && <HeroSlider />}
         
         {/* Main Content with Sidebars */}
         <div className="container max-w-7xl mx-auto px-4 py-8">
